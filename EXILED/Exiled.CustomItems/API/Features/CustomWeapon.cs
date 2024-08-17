@@ -20,8 +20,8 @@ namespace Exiled.CustomItems.API.Features
     using InventorySystem.Items.Firearms.Attachments;
     using InventorySystem.Items.Firearms.Attachments.Components;
     using InventorySystem.Items.Firearms.BasicMessages;
-
     using UnityEngine;
+    using Utils.Networking;
 
     using Firearm = Exiled.API.Features.Items.Firearm;
     using Player = Exiled.API.Features.Player;
@@ -229,7 +229,7 @@ namespace Exiled.CustomItems.API.Features
                 return;
             }
 
-            ev.Player.Connection.Send(new RequestMessage(ev.Firearm.Serial, RequestType.Reload));
+            new RequestMessage(ev.Firearm.Serial, RequestType.Reload).SendToAuthenticated();
 
             byte amountToReload = (byte)Math.Min(ClipSize - remainingClip, ev.Player.Ammo[ammoType.GetItemType()]);
 
